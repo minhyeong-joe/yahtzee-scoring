@@ -11,26 +11,26 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-// get dices from input
+// get dice from input
 rl.question("Enter the eyes of five dices separated by space: ", answer => {
-    dices = answer.split(" ").map(dice => parseInt(dice));
-    if (!isValidDices(dices)) {
+    dice = answer.split(" ").map(die => parseInt(die));
+    if (!isValidDice(dice)) {
         console.log("Invalid input");
     } else {
-        console.log(dices);
-        computeScore(dices);
+        console.log(dice);
+        computeScore(dice);
     }
     rl.close();
 });
 
-// check if input dices are valid
-// valid iff (1)there are 5 dices; (2)each dice is an integer between 1 and 6 (inclusive)
-const isValidDices = dices => {
-    if (dices.length != 5) {
+// check if input dice are valid
+// valid iff (1)there are 5 dice; (2)each die is an integer between 1 and 6 (inclusive)
+const isValidDice = dice => {
+    if (dice.length != 5) {
         return false;
     }
-    for (const dice of dices) {
-        if (dice < 1 || dice > 6 || !Number.isInteger(dice)) {
+    for (const die of dice) {
+        if (die < 1 || die > 6 || !Number.isInteger(die)) {
             return false;
         }
     }
@@ -38,13 +38,13 @@ const isValidDices = dices => {
 };
 
 // compute Score given valid 5 dices
-const computeScore = dices => {
+const computeScore = dice => {
     // sort for straight check
-    dices.sort();
-    console.log("Sorted:", dices);
+    dice.sort();
+    console.log("Sorted:", dice);
     // freq for dice counter
     const freq = {};
-    const sumOfEyes = dices.reduce((acc, dice)=>acc+dice, 0);
+    const sumOfEyes = dice.reduce((acc, die)=>acc+die, 0);
     const scores = {
         ones: 0,
         twos: 0,
@@ -61,13 +61,13 @@ const computeScore = dices => {
         choice: 0
     };
     // compute singles & count occurrences at the same time
-    dices.forEach(dice => {
-        if (freq[dice]) {
-            freq[dice]++;
+    dice.forEach(die => {
+        if (freq[die]) {
+            freq[die]++;
         } else {
-            freq[dice] = 1;
+            freq[die] = 1;
         }
-        switch (dice) {
+        switch (die) {
             case 1:
                 scores.ones++;
                 break;
@@ -88,7 +88,7 @@ const computeScore = dices => {
                     break;
                 }
             });
-            // compute 3 of a kind & 4 of a kind & Full House & Yahtzee
+    // compute 3 of a kind & 4 of a kind & Full House & Yahtzee
     console.log("Count:", freq);
     for (const [_, count] of Object.entries(freq)) {
         if (count >= 3) {
@@ -108,10 +108,10 @@ const computeScore = dices => {
     // compute SM straight & LG straight
     let straight = 1;
     let maxStraight = 1;
-    for (let i = 1; i < dices.length; i++) {
-        if (dices[i] == dices[i-1]+1) {
+    for (let i = 1; i < dice.length; i++) {
+        if (dice[i] == dice[i-1]+1) {
             straight++;
-        } else if (dices[i] > dices[i-1]+1) {
+        } else if (dice[i] > dice[i-1]+1) {
             straight = 1;
         }
         maxStraight = Math.max(straight, maxStraight);
@@ -123,7 +123,7 @@ const computeScore = dices => {
         scores.lgStraight = LG_STRAIGHT;
     }
 
-    // choice score is just sum of all dices
+    // choice score is just sum of all dice
     scores.choice = sumOfEyes;
 
     console.log(scores);
