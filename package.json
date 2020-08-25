@@ -1,0 +1,22 @@
+{
+  "name": "yahtzee-scoring",
+  "version": "1.0.0",
+  "description": "Scoring estimating logic for [Yahtzee Game](https://www.dicegamedepot.com/yahtzee-rules/)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minhyeong-joe/yahtzee-scoring.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minhyeong-joe/yahtzee-scoring/issues"
+  },
+  "homepage": "https://github.com/minhyeong-joe/yahtzee-scoring#readme",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
+}

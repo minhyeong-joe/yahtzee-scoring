@@ -1,27 +1,10 @@
-const readline = require('readline');
+const prompt = require('prompt-sync')();
 
 // constant scores
 const FULL_HOUSE = 25;
 const SM_STRAIGHT = 30;
 const LG_STRAIGHT = 40;
 const YAHTZEE = 50;
-
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-
-// get dice from input
-rl.question("Enter the eyes of five dices separated by space: ", answer => {
-    dice = answer.split(" ").map(die => parseInt(die));
-    if (!isValidDice(dice)) {
-        console.log("Invalid input");
-    } else {
-        console.log(dice);
-        computeScore(dice);
-    }
-    rl.close();
-});
 
 // check if input dice are valid
 // valid iff (1)there are 5 dice; (2)each die is an integer between 1 and 6 (inclusive)
@@ -41,10 +24,10 @@ const isValidDice = dice => {
 const computeScore = dice => {
     // sort for straight check
     dice.sort();
-    console.log("Sorted:", dice);
+    // console.log("Sorted:", dice);
     // freq for dice counter
     const freq = {};
-    const sumOfEyes = dice.reduce((acc, die)=>acc+die, 0);
+    const sumOfEyes = dice.reduce((acc, die) => acc + die, 0);
     const scores = {
         ones: 0,
         twos: 0,
@@ -72,24 +55,24 @@ const computeScore = dice => {
                 scores.ones++;
                 break;
             case 2:
-                scores.twos+=2;
+                scores.twos += 2;
                 break;
             case 3:
-                scores.threes+=3;
+                scores.threes += 3;
                 break;
             case 4:
-                scores.fours+=4;
+                scores.fours += 4;
                 break;
             case 5:
-                scores.fives+=5;
+                scores.fives += 5;
                 break;
-                case 6:
-                    scores.sixs+=6;
-                    break;
-                }
-            });
+            case 6:
+                scores.sixs += 6;
+                break;
+        }
+    });
     // compute 3 of a kind & 4 of a kind & Full House & Yahtzee
-    console.log("Count:", freq);
+    // console.log("Count:", freq);
     for (const [_, count] of Object.entries(freq)) {
         if (count >= 3) {
             scores.threeOfKind = sumOfEyes;
@@ -109,9 +92,9 @@ const computeScore = dice => {
     let straight = 1;
     let maxStraight = 1;
     for (let i = 1; i < dice.length; i++) {
-        if (dice[i] == dice[i-1]+1) {
+        if (dice[i] == dice[i - 1] + 1) {
             straight++;
-        } else if (dice[i] > dice[i-1]+1) {
+        } else if (dice[i] > dice[i - 1] + 1) {
             straight = 1;
         }
         maxStraight = Math.max(straight, maxStraight);
@@ -128,4 +111,18 @@ const computeScore = dice => {
 
     console.log(scores);
 };
+
+// main program
+let input;
+do {
+    let dice = prompt("Enter the eyes of five dice separated by space: ").split(" ").map(die => parseInt(die));
+    while (!isValidDice(dice)) {
+        dice = prompt("Please enter valid eyes of Five dice: ").split(" ").map(die => parseInt(die));
+    }
+    computeScore(dice);
+    input = prompt("Continue? ('y' for more computation): ");
+} while (input == "y")
+
+
+
 
